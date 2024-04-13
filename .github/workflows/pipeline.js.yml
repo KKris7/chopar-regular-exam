@@ -1,4 +1,4 @@
-name: Build and Run Tests
+name: Build Test and Deploy Cookbook
 on:
   push:
     branches: [ "main" ]
@@ -44,3 +44,13 @@ jobs:
               run: npm start &
             - name: Run the UI tests
               run: npm run test:ui
+
+  deploy:
+    needs: runUiTests
+    runs-on: ubuntu-latest  
+    steps:
+        - name: Deploy to production
+          uses: johnbeynon/render-deploy-action@v0.0.8
+          with:
+              service-id: ${{ secrets.REGULAR_EXAM_SERVICE }}
+              api-key: ${{ secrets.REGULAR_EXAM_TOKEN }}
