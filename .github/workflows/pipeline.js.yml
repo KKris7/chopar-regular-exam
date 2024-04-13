@@ -1,0 +1,46 @@
+name: Build and Run Tests
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+jobs:
+  buildAndRunUnitTests:
+    runs-on: ubuntu-latest  
+    steps:
+      - name: Checkout Repo
+        uses: actions/checkout@v4
+      - name: Use Node.js '20.x'
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+      - name: Install dependencies
+        run: npm install
+      - name: Start the App
+        run: npm start &
+      - name: Run the unit tests
+        run: npm run test:unit
+      - name: chopar
+        run: echo "chopar"
+
+  runUiTests:
+    needs: buildAndRunUnitTests
+    runs-on: ubuntu-latest  
+    steps:
+            - name: Checkout Repo
+              uses: actions/checkout@v4
+            - name: Use Node.js '20.x'
+              uses: actions/setup-node@v4
+              with:
+                node-version: '20.x'
+                cache: 'npm'
+            - name: Install dependencies
+              run: npm install
+            - name: Install browsers
+              run: npx playwright install
+            - name: Start the App
+              run: npm start &
+            - name: Run the UI tests
+              run: npm run test:ui
