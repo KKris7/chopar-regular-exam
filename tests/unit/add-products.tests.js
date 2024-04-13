@@ -9,7 +9,7 @@ suite('Add Products page', function() {
   });
 
   test('Product HTML form', async function() {
-    let res = await fetch("http://localhost:8080/Add-Product");
+    let res = await fetch("http://localhost:8070/Add-Product");
     let body = await res.text();
     
     let nameFieldFound = body.includes('<input id="name" type="text" name="name"/>');
@@ -24,7 +24,7 @@ suite('Add Products page', function() {
 
   test('Add valid product', async function() {
     let res = await fetch(
-      "http://localhost:8888/Add-Product",
+      "http://localhost:8070/Add-Product",
       {
         method: 'POST',
         headers: {
